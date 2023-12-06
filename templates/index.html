@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<title>Index</title>
+<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+
+	td {
+		padding: 8px;
+		text-align: center;
+	}
+
+	th {
+		background-color: #bdbbbb;
+		padding: 5px;
+		font-size: 18px;
+	}
+
+	colgroup {
+	width: 250px;
+	}
+
+	caption {
+  		font-weight: bold;
+  		font-size: 28px;
+  		text-align: left;
+  		color: black;
+		padding-bottom: 10px;
+	}
+</style>
+
+<!-- Tämä väliaikainen ratkaisu, että näkee onko sisäänkirjautunut -->
+{% if session.user_id %}
+
+<p>You are logged in.</p>
+
+<input type="button" onclick="location.href='/logout'" value="Logout">
+{% else %}
+<a href="/login">Login</a>
+
+{% endif %}
+
+
+<!-- Temporary solution for not showing saved references before login, rest of solution at the end of this file -->
+{% if session.user_id %}
+<br><br>
+<input type="button" onclick="location.href='/add'" value="Add a new reference">
+<br><br>
+<input type="button" onclick="location.href='/bibtex'" value="Download a BibTex file">
+<br><br>
+<table>
+	<caption>Articles</caption>
+	<colgroup>
+	<col>
+	<col>	
+	<col>
+	<col>
+	<col style="width:100px">
+	<col style="width:100px">
+	<col style="width:150px">
+	</colgroup>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Author</th>
+		<th>Journal</th>
+		<th>Year</th>
+		<th>Volume</th>
+		<th>Pages</th>
+	  </tr>
+{% for article in articles %}
+	<tr>
+		<td>{{ article.cite_id }}</a></td>
+		<td>{{ article.title }}</a></td>
+		<td>{{ article.author }}</td>
+		<td>{{ article.journal }}</td>
+		<td>{{ article.year }}</td>
+		<td>{{ article.volume }}</td>
+		<td>{{ article.start_page}}-{{ article.end_page }}</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+<table>
+	<caption>Books</caption>
+	<colgroup>
+	<col>
+	<col>	
+	<col>
+	<col style="width:100px">
+	<col>
+	<col style="width: 150px">
+	</colgroup>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Author</th>
+		<th>Year</th>
+		<th>Publisher</th>
+		<th>Pages</th>
+	  </tr>
+{% for book in books %}
+	<tr>
+		<td>{{ book.cite_id }}</a></td>
+		<td>{{ book.title }}</a></td>
+		<td>{{ book.author }}</td>
+		<td>{{ book.year }}</td>
+		<td>{{ book.publisher}}</td>
+		<td>{{ book.start_page}}-{{ book.end_page }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<br>
+<table>
+	<caption>Inproceedings</caption>
+	<colgroup>
+	<col>
+	<col>	
+	<col>
+	<col style="width:100px">
+	<col>
+	<col style="width: 150px">
+	</colgroup>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Author</th>
+		<th>Year</th>
+		<th>Book title</th>
+		<th>Pages</th>
+	  </tr>
+{% for inproceeding in inproceedings %}
+	<tr>
+		<td>{{ inproceeding.cite_id }}</a></td>
+		<td>{{ inproceeding.title }}</a></td>
+		<td>{{ inproceeding.author }}</td>
+		<td>{{ inproceeding.year }}</td>
+		<td>{{ inproceeding.booktitle}}</td>
+		<td>{{ inproceeding.start_page}}-{{ inproceeding.end_page }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<!-- Rest of temporary solution -->
+{% else %}
+ to see saved references.
+{% endif %}
+
